@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        /* *{ margin: 0; padding: 0; text-decoration: none;}
+        body {
+         padding: 20px;
+         }
+        #container { width: 600px; height: 400px; border: 3px solid #333; overflow: hidden; position: relative;}
+        #list { width: 4200px; height: 400px; position: absolute; z-index: 1;}
+        #list img { float: left;width: 600px;}
+        #buttons { position: absolute; height: 10px; width: 100px; z-index: 2; bottom: 20px; left: 250px;}
+        #buttons span { cursor: pointer; float: left; border: 1px solid #fff; width: 10px; height: 10px; border-radius: 50%; background: #333; margin-right: 5px;}
+        #buttons .on {  background: orangered;}
+        .arrow { cursor: pointer; display: none; line-height: 39px; text-align: center; font-size: 36px; font-weight: bold; width: 40px; height: 40px;  position: absolute; z-index: 2; top: 180px; background-color: RGBA(0,0,0,.3); color: #fff;}
+        .arrow:hover { background-color: RGBA(0,0,0,.7);}
+        #container:hover .arrow { display: block;}
+        #prev { left: 20px;}
+        #next { right: 20px;}*/
+        * {
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+        }
+
+        body {
+            padding: 20px;
+
+        }
+
+        #container {
+            position: relative;
+            overflow: hidden;
+
+            width: 600px;
+            height: 400px;
+            border: 3px solid #333;
+        }
+
+        #list {
+            position: absolute;
+            z-index: 1;
+            width: 4200px;
+            height: 400px;
+        }
+
+        #list img {
+            float: left;
+            width: 600px;
+        }
+
+        #buttons {
+            position: absolute;
+            z-index: 2;
+            bottom: 20px;
+            left: 250px;/*(600-100)/2*/
+            width: 100px;
+            
+            height: 10px;
+        }
+
+        #buttons span {
+            float: left;
+            width: 10px;
+            height: 10px;
+          
+            margin-right: 5px;
+
+            cursor: pointer;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            background: #333;
+
+        }
+
+        #buttons .on {
+            background: orangered;
+        }
+
+        .arrow {
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 39px;
+            position: absolute;
+            z-index: 2;
+            top: 180px;
+            display: none;
+            width: 40px;
+            height: 40px;
+
+            cursor: pointer;
+            text-align: center;
+            color: #fff;
+            background-color: RGBA(0, 0, 0, .3);
+        }
+
+        .arrow:hover {
+            background-color: RGBA(0, 0, 0, .7);
+        }
+
+        #container:hover .arrow {
+            display: block;
+        }
+
+        #prev {
+            left: 20px;
+        }
+
+        #next {
+            right: 20px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div id="container">
+    <div id="list" style="left: -600px;">
+        <img src="images/default.jpg" alt="5"/>
+        <img src="images/2.jpg" alt="1"/>
+        <img src="images/3.jpg" alt="2"/>
+        <img src="images/4.jpg" alt="3"/>
+        <img src="images/12.jpg" alt="4"/>
+        <img src="images/default.jpg" alt="5"/>
+        <img src="images/2.jpg" alt="1"/>
+    </div>
+    <div id="buttons">
+        <span index="1" class="on"></span>
+        <span index="2"></span>
+        <span index="3"></span>
+        <span index="4"></span>
+        <span index="5"></span>
+    </div>
+    <a href="javascript:;" id="prev" class="arrow">&lt;</a>
+    <a href="javascript:;" id="next" class="arrow">&gt;</a>
+</div>
+</body>
+<script>
+    window.onload = function () {
+        // body...
+        var prev = document.getElementById("prev");
+        var next = document.getElementById("next");
+        var list = document.getElementById("list");
+        var buttons = document.getElementById("buttons").getElementsByTagName("span");
+        var container = document.getElementById("container");
+        var index = 1;
+        var timer;
+        var animated = false;
+        // 显示小圆点
+        function shownButton() {
+            for (var i = 0; i < buttons.length; i++) {
+                // 动画期间只有一个是“on ”
+                if (buttons[i].className == 'on') {
+                    buttons[i].className = '';
+                    /* prev和next每click一次，
+                     就会清除一次前一个class为on的span元素，
+                     所以没有必要再去循环下面的span*/
+                    break;
+                }
+                //  或者直接遍历清除  buttons[i].className=""；
+            }
+            buttons[index - 1].className = "on";
+        }
+
+        function animate(offset) {
+            var time = 500;
+            var inteval = 10;
+            // 每次移动的距离，步长
+            var speed = offset / (time / inteval);//(+-)600/30=20px
+            animated = true;
+            // 
+            var newLeft = parseInt(list.style.left) + offset;
+
+            function go() {
+                // left>0,显示上一张
+                if ((speed > 0 && parseInt(list.style.left) < newLeft) ||
+                 (speed < 0 && parseInt(list.style.left) > newLeft)) {
+                    list.style.left = parseInt(list.style.left) + speed + 'px';
+                    setTimeout(go, inteval);
+                } else {
+
+                    animated = false;
+                    // list.style.left=newLeft+"px";
+                    if (newLeft > -600) {
+                        list.style.left = -3000 + "px";
+                    }
+                    if (newLeft < -3000) {
+                        list.style.left = -600 + "px";
+                    }
+                }
+            }
+
+            go();
+        };
+
+
+        prev.onclick = function () {
+            /*添加一个if判断index为1时，如果继续往前滚的话就让index返回第五个span
+            但是当快速点击arrow时会出现一种span点亮延迟的情况。可以尝试把判断index是否大于1或小于5的情况放进
+            判断是否animated的if语句中，先判断能不能点击，再点亮。
+            */
+
+            if (!animated) {
+                if (index == 1) {
+                    index = 5;
+                } else {
+                    index -= 1;
+                }
+
+                shownButton();
+                // 上一个 left+600
+                animate(600);
+            }
+
+
+        };
+        next.onclick = function () {
+
+
+            if (!animated) {
+                if (index == 5) {
+                    index = 1;
+                } else {
+                    index += 1;
+                }
+                shownButton();
+                animate(-600);
+            }
+        };
+
+        //注册指示器的点击监听事件
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].onclick = function () {
+                //无关紧要
+                
+                if (this.className == "on") {
+                    return;
+                }
+                var myIndex = parseInt(this.getAttribute("index"));
+                var offset = -600 * (myIndex - index);
+                if (!animated) {
+                    animate(offset);
+                }
+                index = myIndex;
+                shownButton();
+
+            }
+        }
+
+        function autoPlay() {
+            timer = setInterval(function () {
+                next.onclick();
+            }, 1000);
+        }
+
+        function stop() {
+            clearInterval(timer);
+        }
+
+        autoPlay();
+        container.onmouseover = stop;
+        container.onmouseout = autoPlay;
+
+    }
+</script>
+</html>

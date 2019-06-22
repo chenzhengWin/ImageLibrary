@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Image</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script type="text/javascript" src="js/index.js"></script>
+</head>
+
+<body>
+
+    <h1>图片库</h1>
+
+    <div id="cover_layer" onclick="toggle(this)">
+        <img src="images/default.jpg" width="40%;" alt="默认图片" id="placeholder">
+
+        <div id="ul_div">
+            <ul>
+                <li><a href="images/2.jpg" onclick="return showPic(this,0);" title="2月份日历">
+                        <img src="images/2.jpg">
+                    </a></li>
+                <li><a href="images/3.jpg" onclick="showPic(this,1); return false;" title="3月份日历">
+                        <img src="images/3.jpg">
+                    </a></li>
+                <li><a href="images/4.jpg" onclick="showPic(this,2); return false;" title="4月份日历">
+                        <img src="images/4.jpg">
+                    </a></li>
+                <li><a href="images/12.jpg" onclick="showPic(this,3); return false;" title="12月份日历">
+                        <img src="images/12.jpg">
+                    </a></li>
+
+                <li><a href="images/2.jpg" onclick="showPic(this,4); return false;" title="2月份日历">
+                        <img src="images/2.jpg">
+                    </a></li>
+                <li><a href="images/3.jpg" onclick="showPic(this,5); return false;" title="3月份日历">
+                        <img src="images/3.jpg">
+                    </a></li>
+                <li><a href="images/4.jpg" onclick="showPic(this,6); return false;" title="4月份日历">
+                        <img src="images/4.jpg">
+                    </a></li>
+                <li><a href="images/12.jpg" onclick="showPic(this,7); return false;" title="12月份日历">
+                        <img src="images/12.jpg">
+                    </a></li>
+
+                <li><a href="images/2.jpg" onclick="showPic(this,8); return false;" title="2月份日历">
+                        <img src="images/2.jpg">
+                    </a></li>
+                <li><a href="images/3.jpg" onclick="showPic(this,9); return false;" title="3月份日历">
+                        <img src="images/3.jpg">
+                    </a></li>
+                <li><a href="images/4.jpg" onclick="showPic(this,10); return false;" title="4月份日历">
+                        <img src="images/4.jpg">
+                    </a></li>
+                <li><a href="images/12.jpg" onclick="showPic(this,11); return false;" title="12月份日历">
+                        <img src="images/12.jpg">
+                    </a></li>
+            </ul>
+        </div>
+
+    </div>
+    <br />
+    <div id="description">请选择一张图片</div>
+
+
+</body>
+
+</html>
